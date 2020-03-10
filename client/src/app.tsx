@@ -1,6 +1,10 @@
 import Taro, { Component, Config } from '@tarojs/taro'
+import { Provider } from '@tarojs/mobx'
+import counterStore from './store/counter'
+
 import Index from './pages/index'
 
+import 'taro-ui/dist/style/index.scss'
 import './app.less'
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -8,6 +12,10 @@ import './app.less'
 // if (process.env.NODE_ENV !== 'production' && process.env.TARO_ENV === 'h5')  {
 //   require('nerv-devtools')
 // }
+
+const store = {
+  counterStore
+}
 
 class App extends Component {
 
@@ -20,7 +28,8 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/index/index'
+      'pages/index/index',
+      "pages/me/me"
     ],
     window: {
       backgroundTextStyle: 'light',
@@ -28,7 +37,24 @@ class App extends Component {
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black'
     },
-    cloud: true
+    cloud: true,
+    "tabBar": {
+      "selectedColor": "#EA5149",
+      "list": [
+        {
+          "pagePath": "pages/index/index",
+          "text": "首页",
+          "iconPath": "./img/book.png",
+          "selectedIconPath": "./img/book-active.png"
+        },
+        {
+          "pagePath": "pages/me/me",
+          "text": "我",
+          "iconPath": "./img/me.png",
+          "selectedIconPath": "./img/me-active.png"
+        }
+      ]
+    }
   }
 
   componentDidMount () {
@@ -47,7 +73,9 @@ class App extends Component {
   // 请勿修改此函数
   render () {
     return (
-      <Index />
+      <Provider store={store}>
+        <Index />
+      </Provider>
     )
   }
 }
