@@ -112,10 +112,8 @@ export default class Index extends Component {
           circular
           indicatorDots
           autoplay>
-
           {this.state.tops.map(item => {
             return <SwiperItem>
-
               {item.map(img => {
                 return <Image
                   className='slide-image'
@@ -123,10 +121,8 @@ export default class Index extends Component {
                   src={img.image}
                 />
               })}
-
             </SwiperItem>
           })}
-
         </Swiper>
 
         {this.state.books.map(book => {
@@ -141,7 +137,6 @@ export default class Index extends Component {
               thumb={book.userInfo.avatarUrl}
             >
               <View>
-
                 <View className='at-row'>
                   <View className='at-col at-col-3'>
                     <Image mode='aspectFit' class="book-img" src={book.image}></Image>
@@ -165,8 +160,6 @@ export default class Index extends Component {
 
               </View>
             </AtCard>
-
-
           </View>
         })}
       </View>
