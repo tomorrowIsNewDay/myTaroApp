@@ -22,8 +22,10 @@ async function searchDouban(isbn){
 async function getDouban(isbn){
   // 第一个爬虫，根据isbn 查询豆瓣url
   let detailInfo = await searchDouban(isbn)
-  console.log('detailinfo::', detailInfo.title, detailInfo.rating.value)
+  // console.log('detailinfo::', detailInfo.title, detailInfo.rating.value)
   let detailPage = await axios.get(detailInfo.url)
+  // const URL = 'https://book.douban.com/subject/'
+  // let detailPage = await axios.get(URL+isbn)
   // 下面写第二个爬虫
   // cheerio 在node李，使用jquery的语法 解析文档
   const $ = cheerio.load(detailPage.data)
@@ -58,13 +60,13 @@ async function getDouban(isbn){
       date:$(v).find('.comment-info span').eq(1).text()
     })
   })
-  console.log(comments)
+  // console.log(comments)
   const ret = {
     create_time : new Date().getTime(),
-    title:detailInfo.title,
-    rate:detailInfo.rating.value,
-    image:detailInfo.cover_url,
-    url:detailInfo.url,
+    title: detailInfo.title, //$('#wrapper>h1>span').text(),
+    rate: detailInfo.rating.value, //$('#interest_sectl .rating_self>.rating_num').text(),
+    image: detailInfo.cover_url,  //$('#mainpic>.nbg').attr('href'),
+    url: detailInfo.url, //URL+isbn, 
     summary:$('#link-report .intro').text(),
     // 页面的浏览量
     count:1,
@@ -74,7 +76,7 @@ async function getDouban(isbn){
     price,
     comments
   }
-  console.log(ret)
+  // console.log(ret)
   return ret
   // console.log()
   // const url = 'https://book.douban.com/subject_search?search_text='+isbn
@@ -90,10 +92,10 @@ async function getDouban(isbn){
 }
 
 // 本地调试的入口
-// console.log(getDouban('9787010009148'))
+getDouban('20498740').then(res=>console.log(res))
 // 所谓的云函数 就是一个node的项目(函数)
 exports.main = async (event, context)=>{
   // 云函数的逻辑
     const {isbn} = event
-    return getDouban('9787010009148')
+    return getDouban(isbn)
 }

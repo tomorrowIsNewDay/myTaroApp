@@ -66,6 +66,7 @@ export default class Index extends Component {
     // 云函数写一个爬虫
   }
   scanCode = ()=>{
+    // this.addBook('26291216')
     Taro.scanCode({
       success:res=>{
         console.log('isbn号::',res.result)
